@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router:Router) { }
 
   getUser(_id: string): Observable<any> {
     // var adminId = JSON.parse(localStorage.getItem("approvedCredential")).adminId;
@@ -58,6 +59,25 @@ export class UsersService {
     var adminId = JSON.parse(localStorage.getItem("approvedCredential") || '{}').adminId;
     console.log(adminId);
     return this.http.get(`${environment.server}/userdetail/${adminId}`, _id);
+  }
+
+  logOut() {
+    // this.dialog.open(LoginComponent, {width: '500px', height: '450px'});
+    localStorage.removeItem("credential");
+    localStorage.removeItem("approvedCredential");
+    var auth = JSON.parse(localStorage.getItem("credential") || '{}');
+    var auth1 = JSON.parse(localStorage.getItem("approvedCredential") || '{}');
+    this.router.navigate(["/login"]);
+    console.log(auth);
+    console.log(auth1);
+    console.log("Log out");
+  }
+
+  _userActionOccured: Subject<void> = new Subject();
+  get userActionOccured(): Observable<void> { return this._userActionOccured.asObservable() };
+
+  notifyUserAction() {
+    this._userActionOccured.next();
   }
 
 }

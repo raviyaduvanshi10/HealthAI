@@ -32,10 +32,24 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
+import { DefaultComponent } from './components/default/default.component';
+import { HeaderComponent } from './components/navigation/header/header.component';
+import { FooterComponent } from './components/navigation/footer/footer.component';
+import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
+import { LayoutComponent } from './components/layout/layout.component';
+import { HomeComponent } from './components/home/home.component';
+import { InactivityTimerComponent } from './components/inactive-timer.component';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    DefaultComponent,
+    HeaderComponent,
+    FooterComponent,
+    SidenavListComponent,
+    LayoutComponent,
+    HomeComponent,
+    InactivityTimerComponent,
   ],
   imports: [
     BrowserModule,

@@ -13,7 +13,7 @@
               <mat-icon matPrefix>group</mat-icon>
               <mat-select [(ngModel)]="user.loginType" [ngModelOptions]="{standalone: true}" #loginType="ngModel"
                 required>
-                <mat-option value="adminlogin">Admin</mat-option>
+                <mat-option value="loginadmin">Admin</mat-option>
                 <mat-option value="userlogin">User</mat-option>
               </mat-select>
               <mat-error *ngIf="loginType.errors?.['required']">Login type is required.</mat-error>

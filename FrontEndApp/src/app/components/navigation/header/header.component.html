@@ -1,0 +1,44 @@
+<mat-toolbar style="background: #135e81; color: floralwhite; height: 50px;">
+    <div fxHide.gt-xs>
+        <button mat-icon-button (click)="onToggleSidenav()">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </div>
+    <div fxHide.gt-xs>Dashboard</div>
+    <div fxFlex fxLayout fxHide.xs>
+        <ul fxLayout fxLayoutGap="10px" class="navigation-items">
+            <li>
+                <div>
+                    <a mat-button routerLink="/default/home" routerLinkActive="active"><span
+                            class="fa fa-home fa-lg"></span>
+                        Dashboard</a>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown" id="admin">
+                    <a mat-button routerLink="/default/users" routerLinkActive="active"><span
+                            class="fa fa-list fa-lg"></span>
+                        Users</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <inactivity-timer></inactivity-timer>
+    </div>
+    <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+        <a mat-button (click)="logOut()"><span class="fa fa-sign-in fa-lg"></span> Logout</a>
+    </div>
+</mat-toolbar>
+<div id="session" class="outer" style="display: none;">
+    <div class="inner">
+        <mat-card>
+            <div fxFlex>
+                <h4><i>Your session has expired</i></h4>
+                <hr>
+                <button mat-raised-button color="primary" (click)="stay()">Stay Logged In </button>
+                <button style="margin-left: 3%;" mat-raised-button color="primary" (click)="out()">Log Out </button>
+            </div>
+        </mat-card>
+    </div>
+</div>
