@@ -61,6 +61,22 @@ export class UsersService {
     return this.http.get(`${environment.server}/userdetail/${adminId}`, _id);
   }
 
+
+  getScheduleTask(): Observable<any> {
+    var adminId = JSON.parse(localStorage.getItem("approvedCredential") || '{}').adminId;
+    var employeeId = JSON.parse(localStorage.getItem("approvedCredential") || '{}')._employeeId;
+    return this.http.get(`${environment.server}/scheduletask/${adminId + employeeId}`);
+  }
+
+  updateTask(formData: Object): Observable<any> {
+    var adminId = JSON.parse(localStorage.getItem("approvedCredential") || '{}').adminId;
+    return this.http.put(`${environment.server}/scheduletask/${adminId}`, formData);
+  }
+
+  scheduleTask(formData: FormData): Observable<any> {
+    var adminId = JSON.parse(localStorage.getItem("approvedCredential") || '{}').adminId;
+    return this.http.post(`${environment.server}/scheduletask/${adminId}`, formData);
+  }
   logOut() {
     // this.dialog.open(LoginComponent, {width: '500px', height: '450px'});
     localStorage.removeItem("credential");

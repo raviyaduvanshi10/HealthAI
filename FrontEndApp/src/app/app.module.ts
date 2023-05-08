@@ -39,6 +39,7 @@ import { SidenavListComponent } from './components/navigation/sidenav-list/siden
 import { LayoutComponent } from './components/layout/layout.component';
 import { HomeComponent } from './components/home/home.component';
 import { InactivityTimerComponent } from './components/inactive-timer.component';
+import { RegisterUserComponent } from './components/register-user/register-user.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +51,7 @@ import { InactivityTimerComponent } from './components/inactive-timer.component'
     LayoutComponent,
     HomeComponent,
     InactivityTimerComponent,
+    RegisterUserComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-<!-- <mat-card>
+<mat-card>
     <div class="employee" *ngFor="let emp of dataSource">
         <div style="float: left;">
             <p *ngIf="emp.mobileNumber"><label for=""><b>Name</b></label> : {{emp.employee }} </p>
@@ -15,6 +15,7 @@
         <button mat-button (click)="cancel()">Return</button>
         <hr>
         <div [hidden]="submitted" style="width:100%;" class="table-responsive">
+            <p> {{tasks | json}} </p>
             <form novalidate #clientForm="ngForm" (ngSubmit)="onSubmit(clientForm)">
                 <div>
                     <p>
@@ -22,7 +23,7 @@
                             <mat-label>Date & Time</mat-label>
                             <input matInput type="datetime-local" id="doj" [(ngModel)]="tasks.date"
                                 placeholder="mm-dd-yyyy" name="dob" #dob="ngModel" required>
-                            <mat-error *ngIf="dob.errors?.required"> Date is required. </mat-error>
+                            <mat-error *ngIf="dob.errors?.['required']"> Date is required. </mat-error>
                         </mat-form-field>
                     </p>
 
@@ -31,7 +32,7 @@
                             <textarea matInput type="text" id="task" [(ngModel)]="tasks.task" placeholder="Task"
                                 (keyup)="autoGrowTextZone($event)" required name="task" #task="ngModel">
                             </textarea>
-                            <mat-error *ngIf="task.errors?.required"> Task is required. </mat-error>
+                            <mat-error *ngIf="task.errors?.['required']"> Task is required. </mat-error>
                         </mat-form-field>
                     </p>
                     <div style="width: 30%;">
@@ -126,8 +127,4 @@
             </div>
         </div>
     </div>
-</mat-card> -->
-
-<div>
-    <h1>Hello</h1>
-</div>
+</mat-card>
