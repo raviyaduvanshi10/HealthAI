@@ -18,7 +18,7 @@ export class UsersService {
 
   createUser(formData: FormData): Observable<Object> {
     var _id = JSON.parse(localStorage.getItem("approvedCredential") || '{}').adminId;
-    return this.http.post(`${environment.server}/users/${_id}`, formData);
+    return this.http.post(`${environment.server}/registeruser`, formData);
   }
 
   updateUser(_id: string, formData: FormData): Observable<Object> {
@@ -37,7 +37,7 @@ export class UsersService {
   loginUser(loginJson: any): Observable<any> {
     var loginType = JSON.parse(localStorage.getItem("loginCredential") || '{}').loginType;
     console.log(loginType);
-    return this.http.post(`${environment.server}/${loginType}`, loginJson);
+    return this.http.post(`${environment.server}/userlogin`, loginJson);
   }
 
 

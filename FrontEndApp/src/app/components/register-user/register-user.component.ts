@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { userForm } from '../models/user';
 import { UsersService } from 'src/app/services/users.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register-user',
@@ -24,12 +25,34 @@ export class RegisterUserComponent {
 
   onSubmit(employeeForm: NgForm) {
     console.log(this.user);
+    this.save();
     employeeForm.resetForm();
+  }
+
+  save() {
+    const formdata = new FormData;
+    formdata.append("jsonData", JSON.stringify(this.user));
+    console.log(formdata)
+    this.usersService
+      .createUser(formdata).subscribe(data => {
+        let d1 = JSON.stringify(data);
+        let d2 = JSON.parse(d1);
+        console.log(d2);
+        if (d2.statusCode == 302) {
+          alert(d2.message);
+        }
+        else {
+          this.submitted = true;
+          delay(2000)
+          this.gotoHome();
+        }
+      },
+        error => console.log(error));
   }
 
 
   gotoHome() {
-    this.router.navigate(['/default/employeelist'])
+    this.router.navigate(['/'])
   }
   cancel() {
     this.location.back();

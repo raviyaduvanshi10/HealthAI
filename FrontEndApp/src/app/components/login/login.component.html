@@ -9,21 +9,10 @@
           <div fxLayout="column" fxLayout.lt-md="column" fxLayoutGap="10" fxlayoutGap.lt-md="10px">
 
             <mat-form-field fxFlex>
-              <mat-label>Login Type</mat-label>
-              <mat-icon matPrefix>group</mat-icon>
-              <mat-select [(ngModel)]="user.loginType" [ngModelOptions]="{standalone: true}" #loginType="ngModel"
-                required>
-                <mat-option value="loginadmin">Admin</mat-option>
-                <mat-option value="userlogin">User</mat-option>
-              </mat-select>
-              <mat-error *ngIf="loginType.errors?.['required']">Login type is required.</mat-error>
-            </mat-form-field>
-
-            <mat-form-field fxFlex>
               <mat-icon matPrefix>person_outline</mat-icon>
-              <input matInput placeholder="Username" [(ngModel)]="user.userName" name="userName" type="text"
-                #userName="ngModel" required>
-              <mat-error *ngIf="userName.errors?.['required']"> Username is required. </mat-error>
+              <input matInput placeholder="Email Id" [(ngModel)]="user.emailId" name="emailId" type="text"
+                #emailId="ngModel" required>
+              <mat-error *ngIf="emailId.errors?.['required']"> EmailId is required. </mat-error>
             </mat-form-field>
 
             <mat-form-field fxFlex>
@@ -36,7 +25,7 @@
             <div fxFlex>
               <button type="submit" mat-raised-button style="background-color: #135e81; color: white;"
                 [disabled]="loginForm.form.invalid">Login</button>
-              <button mat-raised-button color="primary" routerLink='/registeruser' routerLinkActive="active">Register
+              <button style="margin-left: 1%; background-color: #135e81; color: white;" mat-raised-button routerLink='/registeruser' routerLinkActive="active">Register
                 User</button>
             </div>
           </div>

@@ -7,7 +7,7 @@
         <br>
         <div [hidden]="submitted" style="width:100%;" class="table-responsive">
 
-            <p> {{user | json}} </p>
+            <!-- <p> {{user | json}} </p> -->
             <form fxLayout="column" novalidate #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
                 <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="100px"
                     fxLayoutGap.lt-md="10px">
@@ -20,13 +20,6 @@
                     </mat-form-field>
 
                     <mat-form-field fxFlex>
-                        <mat-label>Username</mat-label>
-                        <input matInput type="text" id="userName" [(ngModel)]="user.userName" placeholder="Username"
-                            required name="userName" #userName="ngModel">
-                        <mat-error *ngIf="userName.errors?.['required']"> Username is required. </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field fxFlex>
                         <mat-label>Mobile</mat-label>
                         <input matInput type="number" id="mobileNumber" [(ngModel)]="user.mobileNumber"
                             placeholder="Mobile Number" name="mobileNumber" #mobileNumber="ngModel"
@@ -34,24 +27,6 @@
                         <mat-error *ngIf="mobileNumber.errors?.['required']"> Mobile number is required. </mat-error>
                         <mat-error *ngIf="mobileNumber.errors?.['pattern']">Please, Enter 10 digit Mobile
                             Number</mat-error>
-
-                    </mat-form-field>
-
-                </div>
-
-                <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="100px"
-                    fxLayoutGap.lt-md="10px">
-                    <mat-form-field fxFlex>
-                        <mat-label>Email</mat-label>
-                        <input matInput type="text" id="emailId" [(ngModel)]="user.emailId"
-                            placeholder="Email Id" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
-                            required name="emailId" #emailId="ngModel">
-                        <mat-error *ngIf="emailId.errors?.['required']"> Email is required.
-                        </mat-error>
-                        <mat-error *ngIf="emailId.errors?.['pattern']">Email should be end with any
-                            domain
-                            name (eg.
-                            vijay@gmail.com). </mat-error>
                     </mat-form-field>
 
                     <mat-form-field fxFlex>
@@ -61,6 +36,31 @@
                         <mat-error *ngIf="dob.errors?.['pattern']"> Please match the requested format
                             (dd/mm/yyyy)</mat-error>
                         <mat-error *ngIf="dob.errors?.['required']"> Dob is required. </mat-error>
+                    </mat-form-field>
+
+
+                </div>
+
+                <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="100px"
+                    fxLayoutGap.lt-md="10px">
+                    <mat-form-field fxFlex>
+                        <mat-label>Email</mat-label>
+                        <input matInput type="text" id="emailId" [(ngModel)]="user.emailId" placeholder="Email Id"
+                            pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$" required name="emailId"
+                            #emailId="ngModel">
+                        <mat-error *ngIf="emailId.errors?.['required']"> Email is required.
+                        </mat-error>
+                        <mat-error *ngIf="emailId.errors?.['pattern']">Email should be end with any
+                            domain
+                            name (eg.
+                            vijay@gmail.com). </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex>
+                        <mat-icon matPrefix>lock_outline</mat-icon>
+                        <input matInput type="password" autocomplete="false" matInput placeholder="Password"
+                            [(ngModel)]="user.password" name="password" #password="ngModel" required>
+                        <mat-error *ngIf="password.errors?.['required']">Password is required.</mat-error>
                     </mat-form-field>
 
                     <mat-form-field fxFlex>

@@ -9,15 +9,19 @@ from pymongo import MongoClient
 from flask_cors import CORS
 from flask_restful import Api, Resource
 import bcrypt
+import json
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, validators, SubmitField
 
 app = Flask(__name__)
+app.secret_key = 'secretKey'
 CORS(app)
 api = Api(app)
 
 
 client = MongoClient(["mongodb://127.0.0.1:27017"])
 deseaseManagement = client["Desease-Prediction"]  # Root Database
-credentials = deseaseManagement["Admin's_Credentials"]
+users = deseaseManagement["Users"]
 
 @app.route('/')
 def root():
@@ -35,6 +39,42 @@ def main():
     test_prediction = model.predict(df)
     print(test_prediction)
     return render_template('home.html', len = len(test_prediction), test_prediction = test_prediction)
+
+class AdminForm(FlaskForm):
+    name = StringField("Name", [validators.DataRequired()])
+    email = StringField("Email", [validators.DataRequired()])
+    userName = StringField("Username", [validators.DataRequired()])
+    password = PasswordField("Password", [validators.DataRequired()])
+    submit = SubmitField("Send")
+
+@app.route('/addadmin', methods=["GET","POST"])
+def add_admin():
+    form = AdminForm() 
+    if request.method == 'POST':
+        name =  request.form["name"]
+        email = request.form["email"]
+        password = request.form["password"]
+        hashed_pw = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
+        try:
+            checkedUserName = users.find({
+                "emailId": email
+                })[0]["emailId"]
+
+        except:
+            checkedUserName = False
+        if checkedUserName:
+            return render_template('form.html', form=form)
+        users.insert_one({
+            "name": name,
+            "emailId": email,
+            "password": hashed_pw,
+            "accessType": "admin"
+        })
+        print("Admin is Registered.")
+        return render_template('root.html')
+
+    else:
+        return render_template('form.html', form=form)
 
 class Predictions(Resource):
     def post(self):
@@ -55,25 +95,39 @@ api.add_resource(Predictions, '/predictions')
 class RegisterAdmin(Resource):
     def post(self):
         adminJson = request.get_json(force=True)
-        userName = adminJson["userName"]
+        name = adminJson["name"]
+        emailId = adminJson["email"]
         password = adminJson["password"]
         hashed_pw = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
+        try:
+            checkedUserName = users.find({
+                "emailId": emailId
+                })[0]["emailId"]
 
-        credentials.insert_one({
-            "userName": userName,
-            "password": hashed_pw
+        except:
+            checkedUserName = False
+        if checkedUserName:
+            return jsonify({
+                "message": "Admin's username is already exist.Please choose any other.",
+                "statusCode": 302
+            })
+        users.insert_one({
+            "name": name,
+            "emailId": emailId,
+            "password": hashed_pw,
+            "accessType": "admin"
         })
 
         return jsonify({
             "status code": 200,
-            "message": "Hi " + userName + "! you have registered successfully as admin "
+            "message": "Hi " + emailId + "! you have registered successfully as admin "
         })
 
 
 api.add_resource(RegisterAdmin, '/registeradmin')
 
 def varifyAdmin(userName, password):
-    hashed_pw = credentials.find({
+    hashed_pw = users.find({
         "userName": userName
     })[0]["password"]
     if bcrypt.hashpw(password.encode('utf8'), hashed_pw) == hashed_pw:
@@ -93,7 +147,7 @@ class LoginAdmin(Resource):
                 "status code": 302,
                 "message": "You have entered an invalid username or password"
             })
-        adminId = credentials.find({
+        adminId = users.find({
             "userName": userName
         })[0]["_id"]
 
@@ -108,6 +162,121 @@ class LoginAdmin(Resource):
 
 
 api.add_resource(LoginAdmin, "/loginadmin")
+
+class RegisterUser(Resource):
+    def post(self):
+        employeeData = request.form['jsonData']
+        userJson = json.loads(employeeData)
+        name = userJson['name']
+        mobileNumber = userJson['mobileNumber']
+        dob = userJson['dob']
+        emailId = userJson['emailId']
+        password = userJson["password"]
+        gender = userJson['gender']
+        hashed_pw = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
+        try:
+            checkedUserName = users.find({
+                "emailId": emailId
+                })[0]["emailId"]
+
+        except:
+            checkedUserName = False
+        
+        if checkedUserName:
+            return jsonify({
+                "message": "{emailId} is already exist.Please choose any other.".format(emailId=emailId),
+                "statusCode": 302
+            })
+
+
+        users.insert_one({
+            "name": name,
+            "mobileNumber": mobileNumber,
+            "dob": dob,
+            "emailId": emailId,
+            "password": hashed_pw,
+            "gender": gender,
+            "accessType": "user",
+        })
+
+        return jsonify({
+            "anouncement": "Employee's data is store in database.",
+            "name": name,
+            "gender": gender,
+            "mobileNumber": mobileNumber,
+            "emailId": emailId,
+            "dob": dob,
+            "active": True,
+            "statusCode": 200
+        })
+
+    def get(self):
+        allData = users.find()
+        employeeJson = []
+        for data in allData:
+                id = data["_id"]
+                name = data["name"]
+                userName = data["userName"]
+                gender = data["gender"]
+                dob = data["dob"]
+                emailId = data["emailId"]
+                mobileNumber = data["mobileNumber"]
+                active = data["active"]
+                dataDict = {
+                    "id": str(id),
+                    "name": name,
+                    "userName": userName,
+                    "gender": gender,
+                    "dob": dob,
+                    "emailId": emailId,
+                    "mobileNumber": mobileNumber,
+                    "active": active
+                }
+                employeeJson.append(dataDict)
+        print(employeeJson)
+        return jsonify(employeeJson)
+
+
+api.add_resource(RegisterUser, '/registeruser')
+
+def varifyUser(emailId, password):
+    hashed_pw = users.find({
+        "emailId": emailId
+    })[0]["password"]
+    if bcrypt.hashpw(password.encode('utf8'), hashed_pw) == hashed_pw:
+        return True
+    else:
+        False
+
+
+class UserLogin(Resource):
+    def post(self):
+        loginJson = request.get_json(force=True)
+        emailId = loginJson["emailId"]
+        password = loginJson["password"]
+        correct_pw = varifyUser(emailId, password)
+        if not correct_pw:
+            return jsonify({
+                "status": 302,
+                "message": "You have entered an invalid username or password"
+            })
+        _id = users.find({
+            "emailId": emailId
+        })[0]["_id"]
+        data = users.find_one({"_id": _id})
+        name = data["name"]
+        emailId = data["emailId"]
+        accessType = data["accessType"]
+        return jsonify({
+            "_employeeId": str(_id),
+            "name": name,
+            "emailId": emailId,
+            "accessType":accessType,
+            "status": 200
+        })
+
+
+api.add_resource(UserLogin, "/userlogin")
 
 if __name__ == "__main__":
     app.run(use_reloader = True, debug=True)

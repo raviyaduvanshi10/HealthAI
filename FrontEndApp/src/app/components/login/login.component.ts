@@ -10,7 +10,7 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class LoginComponent {
 
-  user = { loginType: '', userName: '', password: '' };
+  user = { emailId: '', password: '' };
   loginForm:any;
   isLoading = false;
 

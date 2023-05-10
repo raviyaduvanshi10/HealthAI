@@ -22,14 +22,13 @@ export class HeaderComponent {
     try {
       console.log("Try is running.")
       var auth = JSON.parse(localStorage.getItem("approvedCredential") || '{}');
-      console.log(auth.loginType);
-      if (auth.loginType == "User") {
-        this.recruiterId = document.getElementById("user");
+      console.log("Check Log")
+      console.log(auth.accessType);
+      if (auth.accessType == "user") {
+        this.recruiterId = document.getElementById("admin");
         this.recruiterId.style.display = "none";
         console.log("User");
       }
-      var _id = auth.adminId;
-      console.log(_id);
     }
     catch (Error) {
       console.log("Catch is running");

@@ -9,10 +9,9 @@ export class User {
 
 export const userForm = {
     name: '',
-    userName: '',
     mobileNumber: '',
-    emailId: '',
     dob: '',
-    userId: '',
+    emailId: '',
+    password:'',
     gender: ''
 };
