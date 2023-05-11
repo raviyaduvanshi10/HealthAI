@@ -4,7 +4,6 @@ export class User {
     mobileNumber!: string;
     emailId!: string;
     accessType!: string;
-    active!: boolean;
 }
 
 export const userForm = {

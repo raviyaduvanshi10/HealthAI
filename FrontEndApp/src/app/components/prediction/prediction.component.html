@@ -5,7 +5,7 @@
         <br>
         <div [hidden]="submitted" style="width:100%;" class="table-responsive">
 
-            <p> {{prediction | json}} </p>
+            <!-- <p> {{prediction | json}} </p> -->
             <form fxLayout="column" novalidate #predictionForm="ngForm" (ngSubmit)="onSubmit(predictionForm)">
                 <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="100px"
                     fxLayoutGap.lt-md="10px">
@@ -29,20 +29,24 @@
 
                     <mat-form-field fxFlex>
                         <mat-label>Nodal Skin Eruptions</mat-label>
-                        <mat-select [(ngModel)]="prediction.nodal_skin_eruptions" #nodal_skin_eruptions="ngModel" name="nodal_skin_eruptions" required>
+                        <mat-select [(ngModel)]="prediction.nodal_skin_eruptions" #nodal_skin_eruptions="ngModel"
+                            name="nodal_skin_eruptions" required>
                             <mat-option value=1>True</mat-option>
                             <mat-option value=0>False</mat-option>
                         </mat-select>
-                        <mat-error *ngIf="nodal_skin_eruptions.errors?.['required']">Nodal skin eruptions is required.</mat-error>
+                        <mat-error *ngIf="nodal_skin_eruptions.errors?.['required']">Nodal skin eruptions is
+                            required.</mat-error>
                     </mat-form-field>
 
                     <mat-form-field fxFlex>
                         <mat-label>Continuous Sneezing</mat-label>
-                        <mat-select [(ngModel)]="prediction.continuous_sneezing" #continuous_sneezing="ngModel" name="continuous_sneezing" required>
+                        <mat-select [(ngModel)]="prediction.continuous_sneezing" #continuous_sneezing="ngModel"
+                            name="continuous_sneezing" required>
                             <mat-option value=1>True</mat-option>
                             <mat-option value=0>False</mat-option>
                         </mat-select>
-                        <mat-error *ngIf="continuous_sneezing.errors?.['required']">Continuous sneezing is required.</mat-error>
+                        <mat-error *ngIf="continuous_sneezing.errors?.['required']">Continuous sneezing is
+                            required.</mat-error>
                     </mat-form-field>
 
 
@@ -69,7 +73,8 @@
 
                     <mat-form-field fxFlex>
                         <mat-label>Joint Pain</mat-label>
-                        <mat-select [(ngModel)]="prediction.joint_pain" #joint_pain="ngModel" name="joint_pain" required>
+                        <mat-select [(ngModel)]="prediction.joint_pain" #joint_pain="ngModel" name="joint_pain"
+                            required>
                             <mat-option value=1>True</mat-option>
                             <mat-option value=0>False</mat-option>
                         </mat-select>
@@ -78,7 +83,8 @@
 
                     <mat-form-field fxFlex>
                         <mat-label>Stomach Pain</mat-label>
-                        <mat-select [(ngModel)]="prediction.stomach_pain" #stomach_pain="ngModel" name="stomach_pain" required>
+                        <mat-select [(ngModel)]="prediction.stomach_pain" #stomach_pain="ngModel" name="stomach_pain"
+                            required>
                             <mat-option value=1>True</mat-option>
                             <mat-option value=0>False</mat-option>
                         </mat-select>
@@ -99,16 +105,19 @@
                     </mat-form-field>
                     <mat-form-field fxFlex>
                         <mat-label>Ulcers on Tongue</mat-label>
-                        <mat-select [(ngModel)]="prediction.ulcers_on_tongue" #ulcers_on_tongue="ngModel" name="ulcers_on_tongue" required>
+                        <mat-select [(ngModel)]="prediction.ulcers_on_tongue" #ulcers_on_tongue="ngModel"
+                            name="ulcers_on_tongue" required>
                             <mat-option value=1>True</mat-option>
                             <mat-option value=0>False</mat-option>
                         </mat-select>
-                        <mat-error *ngIf="ulcers_on_tongue.errors?.['required']">Ulcers on tongue is required.</mat-error>
+                        <mat-error *ngIf="ulcers_on_tongue.errors?.['required']">Ulcers on tongue is
+                            required.</mat-error>
                     </mat-form-field>
 
                     <mat-form-field fxFlex>
                         <mat-label>Muscle Wasting</mat-label>
-                        <mat-select [(ngModel)]="prediction.muscle_wasting" #muscle_wasting="ngModel" name="muscle_wasting" required>
+                        <mat-select [(ngModel)]="prediction.muscle_wasting" #muscle_wasting="ngModel"
+                            name="muscle_wasting" required>
                             <mat-option value=1>True</mat-option>
                             <mat-option value=0>False</mat-option>
                         </mat-select>
@@ -131,19 +140,23 @@
                     fxLayoutGap.lt-md="10px">
                     <mat-form-field fxFlex>
                         <mat-label>Burning Micturition</mat-label>
-                        <mat-select [(ngModel)]="prediction.burning_micturition" #burning_micturition="ngModel" name="burning_micturition" required>
+                        <mat-select [(ngModel)]="prediction.burning_micturition" #burning_micturition="ngModel"
+                            name="burning_micturition" required>
                             <mat-option value=1>True</mat-option>
                             <mat-option value=0>False</mat-option>
                         </mat-select>
-                        <mat-error *ngIf="burning_micturition.errors?.['required']">Burning micturition is required.</mat-error>
+                        <mat-error *ngIf="burning_micturition.errors?.['required']">Burning micturition is
+                            required.</mat-error>
                     </mat-form-field>
                     <mat-form-field fxFlex>
                         <mat-label>Spotting Urination</mat-label>
-                        <mat-select [(ngModel)]="prediction.spotting_urination" #spotting_urination="ngModel" name="spotting_urination" required>
+                        <mat-select [(ngModel)]="prediction.spotting_urination" #spotting_urination="ngModel"
+                            name="spotting_urination" required>
                             <mat-option value=1>True</mat-option>
                             <mat-option value=0>False</mat-option>
                         </mat-select>
-                        <mat-error *ngIf="spotting_urination.errors?.['required']">Spotting urination is required.</mat-error>
+                        <mat-error *ngIf="spotting_urination.errors?.['required']">Spotting urination is
+                            required.</mat-error>
                     </mat-form-field>
 
                     <mat-form-field fxFlex>
@@ -157,7 +170,8 @@
 
                     <mat-form-field fxFlex>
                         <mat-label>Weight Gain</mat-label>
-                        <mat-select [(ngModel)]="prediction.weight_gain" #weight_gain="ngModel" name="weight_gain" required>
+                        <mat-select [(ngModel)]="prediction.weight_gain" #weight_gain="ngModel" name="weight_gain"
+                            required>
                             <mat-option value=1>True</mat-option>
                             <mat-option value=0>False</mat-option>
                         </mat-select>
@@ -177,7 +191,8 @@
                     </mat-form-field>
                     <mat-form-field fxFlex>
                         <mat-label>Cold Hands and Feets</mat-label>
-                        <mat-select [(ngModel)]="prediction.cold_hands_and_feets" #cold_hands_and_feets="ngModel" name="cold_hands_and_feets" required>
+                        <mat-select [(ngModel)]="prediction.cold_hands_and_feets" #cold_hands_and_feets="ngModel"
+                            name="cold_hands_and_feets" required>
                             <mat-option value=1>True</mat-option>
                             <mat-option value=0>False</mat-option>
                         </mat-select>
@@ -186,7 +201,8 @@
 
                     <mat-form-field fxFlex>
                         <mat-label>Mood Swings</mat-label>
-                        <mat-select [(ngModel)]="prediction.mood_swings" #mood_swings="ngModel" name="mood_swings" required>
+                        <mat-select [(ngModel)]="prediction.mood_swings" #mood_swings="ngModel" name="mood_swings"
+                            required>
                             <mat-option value=1>True</mat-option>
                             <mat-option value=0>False</mat-option>
                         </mat-select>
@@ -195,17 +211,16 @@
 
                     <mat-form-field fxFlex>
                         <mat-label>Weight Loss</mat-label>
-                        <mat-select [(ngModel)]="prediction.weight_loss" #weight_loss="ngModel" name="weight_loss" required>
+                        <mat-select [(ngModel)]="prediction.weight_loss" #weight_loss="ngModel" name="weight_loss"
+                            required>
                             <mat-option value=1>True</mat-option>
                             <mat-option value=0>False</mat-option>
                         </mat-select>
                         <mat-error *ngIf="weight_loss.errors?.['required']">Gender is required.</mat-error>
                     </mat-form-field>
                 </div>
-                <br>
-                <br>
                 <div style="text-align: end;">
-                    <button style="margin-right: 2%;" mat-button class="background-primary text-floral-white"
+                    <button style="margin-right: 1%;" mat-button class="background-primary text-floral-white"
                         (click)="cancel()">Back</button>
                     <button mat-button class="background-primary text-floral-white" type="submit"
                         [disabled]="predictionForm.form.invalid">Predict</button>
@@ -225,8 +240,12 @@
             </table>
             <br>
             <br>
-            <button style="margin-right: 2%;" mat-button class="background-primary text-floral-white"
-                        (click)="gotoHome()">Get Back to Home</button>
+            <div>
+                <button style="margin-right: 2%;" mat-button class="background-primary text-floral-white"
+                    (click)="gotoHome()">Get Back to Home</button>
+                <button style="margin-right: 2%;" mat-button class="background-primary text-floral-white"
+                    (click)="saveData()">Save Prediction</button>
+            </div>
         </div>
         <br>
     </div>

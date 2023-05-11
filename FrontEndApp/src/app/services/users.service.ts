@@ -25,17 +25,16 @@ export class UsersService {
     return this.http.post(`${environment.server}/predictions`, formData);
   }
 
-  updateUser(_id: string, formData: FormData): Observable<Object> {
-    return this.http.put(`${environment.server}/user/${_id}`, formData);
+  updateUser(formData: Object): Observable<Object> {
+    return this.http.put(`${environment.server}/registeruser`, formData);
   }
 
-  deleteUser(_id: string, active: boolean): Observable<any> {
-    return this.http.delete(`${environment.server}/user/${_id + active}`, { responseType: 'text' });
+  deletePrediction(_id: string): Observable<any> {
+    return this.http.delete(`${environment.server}/saveprediction/${_id}`, { responseType: 'text' });
   }
 
   getUserList(): Observable<any> {
-    var _id = JSON.parse(localStorage.getItem("approvedCredential") || '{}').adminId;
-    return this.http.get(`${environment.server}/users/${_id}`);
+    return this.http.get(`${environment.server}/registeruser`);
   }
 
   loginUser(loginJson: any): Observable<any> {
@@ -45,9 +44,9 @@ export class UsersService {
   }
 
 
-  getUserFile(userName: any): Observable<any> {
-    return this.http.get(`${environment.server}/filehandling/${userName}`, { responseType: 'blob' })
-  }
+  // getUserFile(userName: any): Observable<any> {
+  //   return this.http.get(`${environment.server}/filehandling/${userName}`, { responseType: 'blob' })
+  // }
 
   getUserDocs(userName: any): Observable<any> {
     // var adminId = JSON.parse(localStorage.getItem("approvedCredential")).adminId;
@@ -66,10 +65,9 @@ export class UsersService {
   }
 
 
-  getScheduleTask(): Observable<any> {
-    var adminId = JSON.parse(localStorage.getItem("approvedCredential") || '{}').adminId;
-    var employeeId = JSON.parse(localStorage.getItem("approvedCredential") || '{}')._employeeId;
-    return this.http.get(`${environment.server}/scheduletask/${adminId + employeeId}`);
+  getSavedPrediction(): Observable<any> {
+    var userId = JSON.parse(localStorage.getItem("approvedCredential") || '{}')._userId;
+    return this.http.get(`${environment.server}/saveprediction/${userId}`);
   }
 
   updateTask(formData: Object): Observable<any> {
@@ -77,9 +75,9 @@ export class UsersService {
     return this.http.put(`${environment.server}/scheduletask/${adminId}`, formData);
   }
 
-  scheduleTask(formData: FormData): Observable<any> {
-    var adminId = JSON.parse(localStorage.getItem("approvedCredential") || '{}').adminId;
-    return this.http.post(`${environment.server}/scheduletask/${adminId}`, formData);
+  savePrediction(formData: Object): Observable<any> {
+    var id = JSON.parse(localStorage.getItem("approvedCredential") || '{}')._userId;
+    return this.http.post(`${environment.server}/saveprediction/${id}`, formData);
   }
   logOut() {
     // this.dialog.open(LoginComponent, {width: '500px', height: '450px'});

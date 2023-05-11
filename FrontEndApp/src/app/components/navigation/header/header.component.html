@@ -6,36 +6,28 @@
     </div>
     <div fxHide.gt-xs></div>
     <div fxFlex fxLayout fxHide.xs>
-        <ul fxLayout fxLayoutGap="10px" class="navigation-items">
-            <li>
-                <div>
-                    <mat-toolbar class="login-toolbar"
-                        style="background-color: #135e81; color: white; height: 50px;">Desease Prediction
-                    </mat-toolbar>
-                </div>
-            </li>
-            <li>
-                <div class="dropdown" id="admin">
-                    <a mat-button routerLink="/default/users" routerLinkActive="active"><span
-                            class="fa fa-list fa-lg"></span>
-                        Users</a>
-                </div>
-            </li>
-        </ul>
+        <div>
+            <mat-toolbar class="login-toolbar" style="background-color: #135e81; color: white; height: 50px;">Desease
+                Prediction
+            </mat-toolbar>
+        </div>
     </div>
     <div>
         <inactivity-timer></inactivity-timer>
     </div>
     <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-        <a mat-button routerLink="/default/users" routerLinkActive="active"><span
-            class="fa fa-list fa-lg"></span>
-            Home</a>
-            <a mat-button routerLink="/default/users" routerLinkActive="active"><span
-                class="fa fa-list fa-lg"></span>
+        <div id="adminId">
+            <a mat-button routerLink="/default/home" routerLinkActive="active"><span class="fa fa-list fa-lg"></span>
+                Home</a>
+        </div>
+        <div id="userId">
+            <a mat-button routerLink="/default/users" routerLinkActive="active"><span class="fa fa-list fa-lg"></span>
                 Users</a>
-        <a mat-button routerLink="/default/prediction" routerLinkActive="active"><span
-            class="fa fa-list fa-lg"></span>
-            Predict</a>
+        </div>
+        <div id="predictedId">
+            <a mat-button routerLink="/default/prediction" routerLinkActive="active"><span class="fa fa-list fa-lg"></span>
+                Predict</a>
+        </div>
         <a mat-button (click)="logOut()"><span class="fa fa-sign-in fa-lg"></span> Logout</a>
     </div>
 </mat-toolbar>

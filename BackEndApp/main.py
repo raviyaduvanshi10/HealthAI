@@ -14,6 +14,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, validators, SubmitField
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+import datetime
 
 app = Flask(__name__)
 app.secret_key = 'secretKey'
@@ -24,23 +25,28 @@ api = Api(app)
 client = MongoClient(["mongodb://127.0.0.1:27017"])
 deseaseManagement = client["Desease-Prediction"]  # Root Database
 users = deseaseManagement["Users"]
+savedPrediction = deseaseManagement["Saved-Prediction"]
+
 
 @app.route('/')
 def root():
     return render_template("root.html")
 
+
 @app.route('/home')
 def home():
     return render_template("home.html", len=0)
 
+
 @app.route('/home', methods=['POST'])
 def main():
     file = pd.read_csv(request.files["file"])
-    df = file.drop(["sn"],axis=1)
+    df = file.drop(["sn"], axis=1)
     model = joblib.load("models/random_forest.joblib")
     test_prediction = model.predict(df)
     print(test_prediction)
-    return render_template('home.html', len = len(test_prediction), test_prediction = test_prediction)
+    return render_template('home.html', len=len(test_prediction), test_prediction=test_prediction)
+
 
 class AdminForm(FlaskForm):
     name = StringField("Name", [validators.DataRequired()])
@@ -49,18 +55,19 @@ class AdminForm(FlaskForm):
     password = PasswordField("Password", [validators.DataRequired()])
     submit = SubmitField("Send")
 
-@app.route('/addadmin', methods=["GET","POST"])
+
+@app.route('/addadmin', methods=["GET", "POST"])
 def add_admin():
-    form = AdminForm() 
+    form = AdminForm()
     if request.method == 'POST':
-        name =  request.form["name"]
+        name = request.form["name"]
         email = request.form["email"]
         password = request.form["password"]
         hashed_pw = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
         try:
             checkedUserName = users.find({
                 "emailId": email
-                })[0]["emailId"]
+            })[0]["emailId"]
 
         except:
             checkedUserName = False
@@ -77,24 +84,27 @@ def add_admin():
 
     else:
         return render_template('form.html', form=form)
-    
+
+
 def predictDesease(param):
     training_dataset = pd.read_csv("models/datasets/Training_dataset.csv")
     Y = training_dataset[["prognosis"]]
     X = training_dataset.iloc[:, :20]
-    x_train,x_test,y_train,y_test = train_test_split(X,Y,test_size=0.2,random_state=42)
-    rfc= RandomForestClassifier(random_state=42)
-    model_rfc = rfc.fit(x_train,y_train)
+    x_train, x_test, y_train, y_test = train_test_split(
+        X, Y, test_size=0.2, random_state=42)
+    rfc = RandomForestClassifier(random_state=42)
+    model_rfc = rfc.fit(x_train, y_train)
     data = pd.DataFrame(param)
     predict = model_rfc.predict(data)
     print(predict)
     return jsonify([{"prediction": predict[0]}])
 
+
 class Predictions(Resource):
     def post(self):
         if request.files:
             file = pd.read_csv(request.files["file"])
-            df = file.drop(["sn"],axis=1)
+            df = file.drop(["sn"], axis=1)
             model = joblib.load("models/random_forest.joblib")
             test_prediction = model.predict(df)
             jsonData = []
@@ -111,7 +121,9 @@ class Predictions(Resource):
             res = predictDesease(jsonData)
             return res
 
+
 api.add_resource(Predictions, '/predictions')
+
 
 class RegisterAdmin(Resource):
     def post(self):
@@ -123,7 +135,7 @@ class RegisterAdmin(Resource):
         try:
             checkedUserName = users.find({
                 "emailId": emailId
-                })[0]["emailId"]
+            })[0]["emailId"]
 
         except:
             checkedUserName = False
@@ -146,6 +158,7 @@ class RegisterAdmin(Resource):
 
 
 api.add_resource(RegisterAdmin, '/registeradmin')
+
 
 def varifyAdmin(userName, password):
     hashed_pw = users.find({
@@ -175,14 +188,14 @@ class LoginAdmin(Resource):
         return jsonify({
             "status code ": 200,
             "message": "Hi " + userName + "! you are logged in successfully.",
-            "adminId": str(adminId),
-            "_employeeId": str(adminId),
+            "_userId": str(adminId),
             "loginType": "Admin",
             "userName": userName
         })
 
 
 api.add_resource(LoginAdmin, "/loginadmin")
+
 
 class RegisterUser(Resource):
     def post(self):
@@ -198,17 +211,16 @@ class RegisterUser(Resource):
         try:
             checkedUserName = users.find({
                 "emailId": emailId
-                })[0]["emailId"]
+            })[0]["emailId"]
 
         except:
             checkedUserName = False
-        
+
         if checkedUserName:
             return jsonify({
                 "message": "{emailId} is already exist.Please choose any other.".format(emailId=emailId),
                 "statusCode": 302
             })
-
 
         users.insert_one({
             "name": name,
@@ -233,32 +245,43 @@ class RegisterUser(Resource):
 
     def get(self):
         allData = users.find()
-        employeeJson = []
+        userJson = []
         for data in allData:
+            accessType = data["accessType"]
+            if accessType == "user":
                 id = data["_id"]
                 name = data["name"]
-                userName = data["userName"]
                 gender = data["gender"]
                 dob = data["dob"]
                 emailId = data["emailId"]
                 mobileNumber = data["mobileNumber"]
-                active = data["active"]
+                accessType = data["accessType"]
+
                 dataDict = {
                     "id": str(id),
                     "name": name,
-                    "userName": userName,
                     "gender": gender,
                     "dob": dob,
                     "emailId": emailId,
                     "mobileNumber": mobileNumber,
-                    "active": active
+                    "accessType": accessType
                 }
-                employeeJson.append(dataDict)
-        print(employeeJson)
-        return jsonify(employeeJson)
+                userJson.append(dataDict)
+        print(userJson)
+        return jsonify(userJson)
+
+    def put(self):
+        jsonData = request.get_json(force=True)
+        uniqId = jsonData["deleteId"]
+        print(uniqId)
+        users.delete_many({'_id': ObjectId(uniqId)})
+        print('\n # Deletion successful # \n')
+        return jsonify({"status": 200,
+                        "msg": "Deletion successful"})
 
 
 api.add_resource(RegisterUser, '/registeruser')
+
 
 def varifyUser(emailId, password):
     hashed_pw = users.find({
@@ -289,15 +312,61 @@ class UserLogin(Resource):
         emailId = data["emailId"]
         accessType = data["accessType"]
         return jsonify({
-            "_employeeId": str(_id),
+            "_userId": str(_id),
             "name": name,
             "emailId": emailId,
-            "accessType":accessType,
+            "accessType": accessType,
             "status": 200
         })
 
 
 api.add_resource(UserLogin, "/userlogin")
+
+
+class SavePrediction(Resource):
+    def post(self, uniqId):
+        jsonData = request.get_json(force=True)
+        predictedDesease = jsonData["desease"]
+        savedPrediction.insert_one({
+            "userId": uniqId,
+            "predictedDesease": predictedDesease,
+            "dt_string": '{dt:%B} {dt.day}, {dt.year}'.format(dt=datetime.datetime.now()),
+        })
+        return jsonify({
+            "status": 200,
+            "dt_string": '{dt:%B} {dt.day}, {dt.year}'.format(dt=datetime.datetime.now())
+        })
+
+    def get(self, uniqId):
+        allData = savedPrediction.find()
+        predictJson = []
+        for data in allData:
+            userId = data["userId"]
+            print(uniqId)
+            if userId == uniqId:
+                id = data["_id"]
+                userId = data["userId"]
+                predictedDesease = data["predictedDesease"]
+                dt = data["dt_string"]
+
+                dataDict = {
+                    "id": str(id),
+                    "userId": userId,
+                    "predictedDesease": predictedDesease,
+                    "dt": dt
+                }
+                predictJson.append(dataDict)
+        print(predictJson)
+        return jsonify(predictJson)
+
+    def delete(self, uniqId):
+        savedPrediction.delete_many({'_id': ObjectId(uniqId)})
+        print('\n # Deletion successful # \n')
+        return jsonify({"status": 200,
+                        "msg": "Deletion successful"})
+
+
+api.add_resource(SavePrediction, "/saveprediction/<string:uniqId>")
 
 if __name__ == "__main__":
     app.run(debug=True)

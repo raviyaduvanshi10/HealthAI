@@ -4,19 +4,21 @@ import { DefaultComponent } from "../components/default/default.component";
 import { HomeComponent } from "../components/home/home.component";
 import { RegisterUserComponent } from "../components/register-user/register-user.component";
 import { PredictionComponent } from "../components/prediction/prediction.component";
+import { UsersComponent } from "../components/users/users.component";
 
 
 
 export const routes: Routes = [
-    {path: '', redirectTo: 'login', pathMatch:'full'},
-    {path:'login', component:LoginComponent},
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    { path: 'login', component: LoginComponent },
     {
         path: 'default', component: DefaultComponent,
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
-            { path: 'prediction', component: PredictionComponent }
+            { path: 'prediction', component: PredictionComponent },
+            { path: 'users', component: UsersComponent }
         ]
     },
-    {path:'registeruser', component:RegisterUserComponent}
+    { path: 'registeruser', component: RegisterUserComponent }
 ]

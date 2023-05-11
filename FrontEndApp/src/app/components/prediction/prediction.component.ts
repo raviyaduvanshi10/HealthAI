@@ -13,8 +13,8 @@ import { predictionForm } from '../models/user';
 export class PredictionComponent {
 
   submitted = false;
-  prediction:any = predictionForm;
-  predictedDesease:any;
+  prediction: any = predictionForm;
+  predictedDesease: any;
 
   constructor(private router: Router, private usersService: UsersService, private location: Location,
     private fb: FormBuilder) { }
@@ -45,6 +45,17 @@ export class PredictionComponent {
         error => console.log(error));
   }
 
+  saveData() {
+    var jsonData = {
+      "desease": this.predictedDesease
+    }
+    console.log(jsonData)
+    this.usersService.savePrediction(jsonData).subscribe(data => {
+      console.log(data)
+      this.router.navigate(['/default'])
+    },
+      error => console.log(error));
+  }
 
   gotoHome() {
     this.router.navigate(['/'])

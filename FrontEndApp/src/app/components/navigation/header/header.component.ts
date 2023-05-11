@@ -11,11 +11,9 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class HeaderComponent {
   @Output() public sidenavToggle = new EventEmitter();
-  managerId:any;
-  leadId:any;
-  recruiterId:any;
-  employeeId:any;
-  employeeName:any;
+  userId:any;
+  adminId:any;
+  predictedId:any;
   constructor(public dialog: MatDialog, private router: Router, private usersService: UsersService) { }
 
   ngOnInit(): void {
@@ -25,9 +23,17 @@ export class HeaderComponent {
       console.log("Check Log")
       console.log(auth.accessType);
       if (auth.accessType == "user") {
-        this.recruiterId = document.getElementById("admin");
-        this.recruiterId.style.display = "none";
+        this.userId = document.getElementById("userId");
+        this.userId.style.display = "none";
         console.log("User");
+      }
+      if (auth.accessType == "admin") {
+        this.adminId = document.getElementById("adminId");
+        this.adminId.style.display = "none";
+        this.predictedId = document.getElementById("predictedId");
+        this.predictedId.style.display = "none";
+        console.log("Admin");
+        this.router.navigate(["/default/users"]);
       }
     }
     catch (Error) {

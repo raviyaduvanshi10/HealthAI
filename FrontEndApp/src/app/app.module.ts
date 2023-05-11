@@ -29,6 +29,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -41,6 +42,7 @@ import { HomeComponent } from './components/home/home.component';
 import { InactivityTimerComponent } from './components/inactive-timer.component';
 import { RegisterUserComponent } from './components/register-user/register-user.component';
 import { PredictionComponent } from './components/prediction/prediction.component';
+import { UsersComponent } from './components/users/users.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +55,8 @@ import { PredictionComponent } from './components/prediction/prediction.componen
     HomeComponent,
     InactivityTimerComponent,
     RegisterUserComponent,
-    PredictionComponent
+    PredictionComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
@@ -87,6 +90,7 @@ import { PredictionComponent } from './components/prediction/prediction.componen
     MatExpansionModule,
     MatChipsModule,
     MatAutocompleteModule,
+    Ng2SearchPipeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

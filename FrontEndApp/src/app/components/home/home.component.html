@@ -25,33 +25,22 @@
                     <tr>
                         <th scope="col">S.No</th>
                         <th scope="col"> Date</th>
-                        <th scope="col"> Task</th>
-                        <th scope="col"> Status </th>
-                        <th>View Doc</th>
+                        <th scope="col"> Predicted Desease</th>
                         <th scope="col"> Action </th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr *ngFor="let tjson of taskJson ; let i=index">
+                    <tr *ngFor="let tjson of jsonData ; let i=index">
                         <td> {{i+1}} </td>
-                        <td> {{tjson.date | date: "longDate"}} </td>
-                        <td> {{tjson.task}} </td>
-                        <td> {{tjson.status}} </td>
+                        <td> {{tjson.dt | date: "longDate"}} </td>
+                        <td> {{tjson.predictedDesease}} </td>
                         <td>
-                            <button mat-icon-button aria-label="Example icon button with a vertical three dot icon"
-                                (click)="scheduleDocs(tjson.date)">
-                                <mat-icon>remove_red_eye_outline</mat-icon>
+                            <button mat-icon-button
+                                aria-label="Example icon button with a vertical three dot icon"
+                                (click)="deleteUser(tjson.id)">
+                                <mat-icon>delete_forever</mat-icon>
                             </button>
-                        </td>
-                        <td>
-                            <mat-form-field style="font-size: 10px;">
-                                <mat-select (selectionChange)="updateStatus($event.value, tjson.id)">
-                                    <mat-option *ngFor="let action of actions" [value]="action">
-                                        <p>{{action}}</p>
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
                         </td>
                     </tr>
                 </tbody>
