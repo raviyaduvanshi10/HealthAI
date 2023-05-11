@@ -4,14 +4,14 @@
             <mat-icon>menu</mat-icon>
         </button>
     </div>
-    <div fxHide.gt-xs>Dashboard</div>
+    <div fxHide.gt-xs></div>
     <div fxFlex fxLayout fxHide.xs>
         <ul fxLayout fxLayoutGap="10px" class="navigation-items">
             <li>
                 <div>
-                    <a mat-button routerLink="/default/home" routerLinkActive="active"><span
-                            class="fa fa-home fa-lg"></span>
-                        Dashboard</a>
+                    <mat-toolbar class="login-toolbar"
+                        style="background-color: #135e81; color: white; height: 50px;">Desease Prediction
+                    </mat-toolbar>
                 </div>
             </li>
             <li>
@@ -27,6 +27,15 @@
         <inactivity-timer></inactivity-timer>
     </div>
     <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+        <a mat-button routerLink="/default/users" routerLinkActive="active"><span
+            class="fa fa-list fa-lg"></span>
+            Home</a>
+            <a mat-button routerLink="/default/users" routerLinkActive="active"><span
+                class="fa fa-list fa-lg"></span>
+                Users</a>
+        <a mat-button routerLink="/default/prediction" routerLinkActive="active"><span
+            class="fa fa-list fa-lg"></span>
+            Predict</a>
         <a mat-button (click)="logOut()"><span class="fa fa-sign-in fa-lg"></span> Logout</a>
     </div>
 </mat-toolbar>

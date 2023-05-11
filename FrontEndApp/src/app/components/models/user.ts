@@ -15,3 +15,27 @@ export const userForm = {
     password:'',
     gender: ''
 };
+
+
+export const predictionForm = { 
+itching: '',
+skin_rash: '', 
+nodal_skin_eruptions:'', 
+continuous_sneezing:'',
+shivering: '',
+chills: '',
+joint_pain:'',
+stomach_pain:'',
+acidity: '',
+ulcers_on_tongue:'',
+muscle_wasting:'',
+vomiting:'',
+burning_micturition: '',
+spotting_urination:'',
+fatigue:'',
+weight_gain:'',
+anxiety:'',
+cold_hands_and_feets:'',
+mood_swings:'',
+weight_loss:''
+};

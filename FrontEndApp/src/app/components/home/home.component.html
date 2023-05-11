@@ -9,58 +9,14 @@
         </div> -->
     </div>
     <hr>
-    <div id="taskform" style="display: none;">
-        <br>
-        <button mat-button (click)="cancel()">Return</button>
-        <hr>
-        <div [hidden]="submitted" style="width:100%;" class="table-responsive">
-            <p> {{tasks | json}} </p>
-            <form novalidate #clientForm="ngForm" (ngSubmit)="onSubmit(clientForm)">
-                <div>
-                    <p>
-                        <mat-form-field fxFlex="30">
-                            <mat-label>Date & Time</mat-label>
-                            <input matInput type="datetime-local" id="doj" [(ngModel)]="tasks.date"
-                                placeholder="mm-dd-yyyy" name="dob" #dob="ngModel" required>
-                            <mat-error *ngIf="dob.errors?.['required']"> Date is required. </mat-error>
-                        </mat-form-field>
-                    </p>
-
-                    <p>
-                        <mat-form-field fxFlex="30">
-                            <textarea matInput type="text" id="task" [(ngModel)]="tasks.task" placeholder="Task"
-                                (keyup)="autoGrowTextZone($event)" required name="task" #task="ngModel">
-                            </textarea>
-                            <mat-error *ngIf="task.errors?.['required']"> Task is required. </mat-error>
-                        </mat-form-field>
-                    </p>
-                    <div style="width: 30%;">
-                        <label for="">Others</label>
-                        <hr>
-                        <input type="file" name="doc" (change)="onDocSelect($event)" accept=".pdf" required>
-                    </div>
-
-                </div>
-                <div>
-                    <br>
-                    <button mat-button type="submit" [disabled]="clientForm.form.invalid">Schedule</button>
-                </div>
-            </form>
-        </div>
-
-        <div [hidden]="!submitted">
-            <h4>Successfully scheduled!</h4>
-        </div>
-    </div>
 
 
     <div class="table-responsive" id="taskTable">
         <br>
-        <button mat-button (click)="schedule()">Predict Desease</button>
         <hr>
         <div id="showTable">
             <div class="animate">
-                <span> 1. Please complete your pending task as soon as possible. Thankyou !</span>
+                <span> 1. Please find your last five predicted desease details below. Thankyou !</span>
             </div>
             <hr>
 
@@ -105,24 +61,6 @@
                 style="display: flex; justify-content: center; align-items: center; background: white;">
                 <mat-progress-spinner color="primary" mode="indeterminate">
                 </mat-progress-spinner>
-            </div>
-        </div>
-        <div id="pdffile" style="display: none;">
-            <div>
-                <div style="font-size: 25px;" fxFlex>
-                    <label for=""> <b>Document</b> </label>
-                </div>
-                <div style="text-align: end; margin: 5px;">
-                    <button mat-raised-button color="primary" (click)="back()">
-                        <mat-icon matPrefix>arrow_back</mat-icon>
-                        Back to Schedule Table
-                    </button>
-                </div>
-            </div>
-            <hr>
-            <div style="text-align: center;">
-                <iframe [src]=schedule_doc class="doc">
-                </iframe>
             </div>
         </div>
     </div>

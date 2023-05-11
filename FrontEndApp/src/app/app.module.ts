@@ -40,6 +40,7 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { HomeComponent } from './components/home/home.component';
 import { InactivityTimerComponent } from './components/inactive-timer.component';
 import { RegisterUserComponent } from './components/register-user/register-user.component';
+import { PredictionComponent } from './components/prediction/prediction.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +52,8 @@ import { RegisterUserComponent } from './components/register-user/register-user.
     LayoutComponent,
     HomeComponent,
     InactivityTimerComponent,
-    RegisterUserComponent
+    RegisterUserComponent,
+    PredictionComponent
   ],
   imports: [
     BrowserModule,

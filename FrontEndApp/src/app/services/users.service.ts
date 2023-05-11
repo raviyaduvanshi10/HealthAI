@@ -21,6 +21,10 @@ export class UsersService {
     return this.http.post(`${environment.server}/registeruser`, formData);
   }
 
+  predictDesease(formData: Object): Observable<Object> {
+    return this.http.post(`${environment.server}/predictions`, formData);
+  }
+
   updateUser(_id: string, formData: FormData): Observable<Object> {
     return this.http.put(`${environment.server}/user/${_id}`, formData);
   }

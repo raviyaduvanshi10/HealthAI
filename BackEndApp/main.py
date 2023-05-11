@@ -12,6 +12,8 @@ import bcrypt
 import json
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, validators, SubmitField
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
 
 app = Flask(__name__)
 app.secret_key = 'secretKey'
@@ -75,20 +77,39 @@ def add_admin():
 
     else:
         return render_template('form.html', form=form)
+    
+def predictDesease(param):
+    training_dataset = pd.read_csv("models/datasets/Training_dataset.csv")
+    Y = training_dataset[["prognosis"]]
+    X = training_dataset.iloc[:, :20]
+    x_train,x_test,y_train,y_test = train_test_split(X,Y,test_size=0.2,random_state=42)
+    rfc= RandomForestClassifier(random_state=42)
+    model_rfc = rfc.fit(x_train,y_train)
+    data = pd.DataFrame(param)
+    predict = model_rfc.predict(data)
+    print(predict)
+    return jsonify([{"prediction": predict[0]}])
 
 class Predictions(Resource):
     def post(self):
-        file = pd.read_csv(request.files["file"])
-        df = file.drop(["sn"],axis=1)
-        model = joblib.load("models/random_forest.joblib")
-        test_prediction = model.predict(df)
-        jsonData = []
-        dictData = {}
-        for i in range(1, len(test_prediction)+1):
-            dictData[i] = test_prediction[i-1]
-        jsonData.append(dictData)
-        print(jsonData)
-        return jsonify(jsonData)
+        if request.files:
+            file = pd.read_csv(request.files["file"])
+            df = file.drop(["sn"],axis=1)
+            model = joblib.load("models/random_forest.joblib")
+            test_prediction = model.predict(df)
+            jsonData = []
+            dictData = {}
+            for i in range(1, len(test_prediction)+1):
+                dictData[i] = test_prediction[i-1]
+            jsonData.append(dictData)
+            print(jsonData)
+            return jsonify(jsonData)
+        else:
+            jsonData = request.get_json(force=True)
+            for key in jsonData:
+                jsonData[key] = list(map(int, jsonData[key]))
+            res = predictDesease(jsonData)
+            return res
 
 api.add_resource(Predictions, '/predictions')
 
@@ -279,4 +300,4 @@ class UserLogin(Resource):
 api.add_resource(UserLogin, "/userlogin")
 
 if __name__ == "__main__":
-    app.run(use_reloader = True, debug=True)
+    app.run(debug=True)
