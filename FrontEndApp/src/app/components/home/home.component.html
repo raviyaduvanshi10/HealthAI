@@ -1,0 +1,56 @@
+<mat-card>
+    <div class="user" *ngFor="let user of dataSource">
+        <div style="float: left;">
+            <p *ngIf="user.name"><label for=""><b>Name</b></label> : {{user.name }} </p>
+            <p *ngIf="user.emailId"><label for=""><b>EmailId</b></label> : {{user.emailId }} </p>
+        </div>
+        <!-- <div style="text-align: end;">
+            <img [src]="user_image" alt="" width="80px" height="80px">
+        </div> -->
+    </div>
+    <hr>
+
+
+    <div class="table-responsive" id="taskTable">
+        <br>
+        <hr>
+        <div id="showTable">
+            <div class="animate">
+                <span> 1. Please find your last five predicted desease details below. Thankyou !</span>
+            </div>
+            <hr>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">S.No</th>
+                        <th scope="col"> Date</th>
+                        <th scope="col"> Predicted Desease</th>
+                        <th scope="col"> Action </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let tjson of jsonData ; let i=index">
+                        <td> {{i+1}} </td>
+                        <td> {{tjson.dt | date: "longDate"}} </td>
+                        <td> {{tjson.predictedDesease}} </td>
+                        <td>
+                            <button mat-icon-button
+                                aria-label="Example icon button with a vertical three dot icon"
+                                (click)="deleteUser(tjson.id)">
+                                <mat-icon>delete_forever</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <div *ngIf="isLoading"
+                style="display: flex; justify-content: center; align-items: center; background: white;">
+                <mat-progress-spinner color="primary" mode="indeterminate">
+                </mat-progress-spinner>
+            </div>
+        </div>
+    </div>
+</mat-card>

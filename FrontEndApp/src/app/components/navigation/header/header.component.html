@@ -1,0 +1,45 @@
+<mat-toolbar style="background: #135e81; color: floralwhite; height: 50px;">
+    <div fxHide.gt-xs>
+        <button mat-icon-button (click)="onToggleSidenav()">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </div>
+    <div fxHide.gt-xs></div>
+    <div fxFlex fxLayout fxHide.xs>
+        <div>
+            <mat-toolbar class="login-toolbar" style="background-color: #135e81; color: white; height: 50px;">Desease
+                Prediction
+            </mat-toolbar>
+        </div>
+    </div>
+    <div>
+        <inactivity-timer></inactivity-timer>
+    </div>
+    <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+        <div id="adminId">
+            <a mat-button routerLink="/default/home" routerLinkActive="active"><span class="fa fa-list fa-lg"></span>
+                Home</a>
+        </div>
+        <div id="userId">
+            <a mat-button routerLink="/default/users" routerLinkActive="active"><span class="fa fa-list fa-lg"></span>
+                Users</a>
+        </div>
+        <div id="predictedId">
+            <a mat-button routerLink="/default/prediction" routerLinkActive="active"><span class="fa fa-list fa-lg"></span>
+                Predict</a>
+        </div>
+        <a mat-button (click)="logOut()"><span class="fa fa-sign-in fa-lg"></span> Logout</a>
+    </div>
+</mat-toolbar>
+<div id="session" class="outer" style="display: none;">
+    <div class="inner">
+        <mat-card>
+            <div fxFlex>
+                <h4><i>Your session has expired</i></h4>
+                <hr>
+                <button mat-raised-button color="primary" (click)="stay()">Stay Logged In </button>
+                <button style="margin-left: 3%;" mat-raised-button color="primary" (click)="out()">Log Out </button>
+            </div>
+        </mat-card>
+    </div>
+</div>

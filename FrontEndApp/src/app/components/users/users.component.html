@@ -1,0 +1,44 @@
+<mat-card>
+    <div style="height: 75vh; margin: 1%;">
+        <div>
+            <div style="font-size: 25px;" fxFlex>
+                <label for=""> <b>User List</b> </label>
+            </div>
+        </div>
+        <hr>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">S.No</th>
+                        <th scope="col">User Name</th>
+                        <th scope="col">Mobile Number</th>
+                        <th scope="col"> Email</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of dataSource | filter:searchText;let i=index">
+                        <td scope="row"> {{i+1}} </td>
+                        <td>{{user.name}}</td>
+                        <td>{{user.mobileNumber}}</td>
+                        <td> {{user.emailId}} </td>
+                        <td>
+                            <button mat-icon-button
+                                aria-label="Example icon button with a vertical three dot icon"
+                                (click)="deleteUser(user.id)">
+                                <mat-icon>delete_forever</mat-icon>
+                            </button>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="isLoading"
+                style="display: flex; justify-content: center; align-items: center; background: white;">
+                <mat-progress-spinner color="primary" mode="indeterminate">
+                </mat-progress-spinner>
+            </div>
+        </div>
+    </div>
+</mat-card>
